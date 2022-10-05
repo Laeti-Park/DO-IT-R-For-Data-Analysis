@@ -68,3 +68,76 @@ exam %>% mutate(test = ifelse(science >= 60, "pass", "fail")) %>% head
 
 prac <- as.data.frame(ggplot2::mpg)
 prac %>% mutate(sum = cty + hwy, mean = sum / 2) %>% arrange(desc(mean)) %>% head(3)
+
+# 집단별로 요약
+exam %>% summarise(mean_math = mean(math))
+
+summarise_statistical_function = "
+  n() : 빈도수
+  mean() : 평균
+  var() : 분산
+  sd() : 표준편차
+  sum() : 합계
+  max() : 최대값
+  min() : 최소값
+  median() : 중위값
+  IQR() : 4분위값
+  mad() : 중위절대편차
+"
+
+exam %>% group_by(class) %>% summarise(mean_math = mean(math))
+exam %>% group_by(class) %>% summarise(
+  mean_math = mean(math),
+  sum_math = sum(math),
+  median_math = median(math),
+  n = n()
+)
+
+mpg %>%
+  group_by(manufacturer, drv) %>%
+  summarise(mean_cty = mean(cty)) %>%
+  head(10)
+
+mpg %>%
+  group_by(manufacturer) %>%
+  filter(class == "suv") %>%
+  mutate(sum = hwy + cty) %>%
+  summarise(mean = mean(sum)) %>%
+  arrange(desc(mean)) %>%
+  head(5)
+
+
+mpg %>%
+  group_by(class) %>%
+  mutate(sum = hwy + cty) %>%
+  summarise(mean = mean(sum)) %>%
+  arrange(desc(mean))
+
+mpg %>%
+  group_by(class) %>%
+  summarise(mean = mean(hwy)) %>%
+  arrange(desc(mean))
+
+mpg %>%
+  group_by(manufacturer) %>%
+  filter(class == "compact") %>%
+  summarise(n = n()) %>%
+  arrange(desc(n)) %>%
+  head(5)
+
+# left_join, bind_rows 가로로/세로로 데이터프레임 합치기
+
+test1 <- data.frame(id = c(1, 2, 3, 4, 5),
+                    midterm = c(60, 80, 70, 90, 85))
+
+test2 <- data.frame(id = c(1, 2, 3, 4, 5),
+                    final = c(70, 83, 65, 95, 80))
+
+total <- left_join(test1, test2, by = "id")
+total
+
+name <- data.frame(id = c(1, 2, 3, 4, 5),
+                   teacher = c("kim", "choi", "park", "jung", "lee"))
+
+total <- left_join(total, name, by = "id")
+total
