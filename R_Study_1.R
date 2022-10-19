@@ -8,7 +8,7 @@ var2 <- c(6, 7, 8)
 
 # seq() # 연속된 값 생성
 var3 <- seq(1, 5) # 1,2,3,4,5
-var4 <- seq(1, 5, 2) # 1,3,5,7,9
+var4 <- seq(1, 10, 2) # 1,3,5,7,9
 
 
 var1 + var2 # 각 위치 값끼리 연산
@@ -16,8 +16,9 @@ var3 + 2 # 각 요소마다 연산
 
 str1 <- "Hello "
 str2 <- "World!"
-paste(str1, str2) # 문자열끼리의 이항 연산자 사용은 불가능
-paste(str1, str2, collapse = "?") # ?을 구분자로 연결
+paste(str1, str2) # 문자열끼리 이항 연산자(str1 + 1) 사용 불가능
+str3 <- c("Hello", "World", "Laeti")
+paste(str3, collapse = "!") # ?을 구분자로 단어들 연결
 str_arr1 <- c("DongHun", "Park")
 paste(str_arr1, collapse = "-")
 
@@ -27,7 +28,8 @@ min(var1) # 1
 
 ? paste() # 함수에 대한 정보 확인
 
-# install.packages("ggplot2") ggplot 라이브러리 설치
+
+# install.packages("ggplot2") # ggplot 라이브러리 설치
 library(ggplot2)
 
 x <- c("a", "a", "b", "c")
@@ -48,7 +50,8 @@ qplot(
   data = mpg,
   x = drv,
   y = hwy,
-  geom = "boxplot", # 그래프 형태
+  geom = "boxplot",
+  # 그래프 형태
   colour = drv # 색 설정
 )
 
