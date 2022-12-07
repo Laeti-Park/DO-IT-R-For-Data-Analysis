@@ -1,3 +1,8 @@
+---
+title: "R_Study_1"
+output: html_notebook
+---
+
 ### 변수 선언
 ```{r}
 a <- 2
@@ -27,9 +32,11 @@ min(var1) # 1
 ```{r}
 str1 <- "Hello "
 str2 <- "World!"
-paste(str1, str2) # 문자열끼리 이항 연산자(str1 + 1) 사용 불가능
+# 문자열끼리 이항 연산자(str1 + 1) 사용 불가능
+paste(str1, str2) # Hello World
 str3 <- c("Hello", "World", "Laeti")
-paste(str3, collapse = "!") # ?을 구분자로 단어들 연결
-str_arr1 <- c("DongHun", "Park")
-paste(str_arr1, collapse = "-")
+# !을 구분자로 단어들 연결
+paste(str3, collapse = "!") # Hello!World!Laeti
+str_arr1 <- c("DongHun", "Park") # Hello World
+paste(str_arr1, collapse = "-") # DongHun-Park
 ```
