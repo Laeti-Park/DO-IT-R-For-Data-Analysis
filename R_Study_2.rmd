@@ -58,7 +58,6 @@ df_csv_exam
 df_csv_exam <- read.csv("./Data/csv_exam.csv", stringsAsFactors = TRUE)
 df_csv_exam
 ```
--
 - csv 파일 저장
 ```{r}
 df_midterm <- data.frame(
