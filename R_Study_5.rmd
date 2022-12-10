@@ -11,11 +11,13 @@ df
 table(is.na(df))
 table(is.na(df$score))
 
-df_nomiss <- df %>% filter(!is.na(score))
+df_nomiss <- df %>%
+  filter(!is.na(score))
 mean(df_nomiss$score)
 sum(df_nomiss$score)
 
-df_nomiss <- df %>% filter(!is.na(score) & !is.na(sex))
+df_nomiss <- df %>%
+  filter(!is.na(score) & !is.na(sex))
 df_nomiss
 ```
 
@@ -33,10 +35,13 @@ sum(df$score, na.rm = T)
 ```{r}
 exam <-
   read.csv("Data/csv_exam.csv")
-exam[c(3, 8, 15), "math"] <- NA # math 열의 3, 8, 15행을 NA 할당
+exam[c(3, 8, 15), "math"] <-
+  NA # math 열의 3, 8, 15행을 NA 할당
 head(exam)
-exam %>% summarise(mean_math = mean(math))
-exam %>% summarise(mean_math = mean(math, na.rm = T))
+exam %>%
+  summarise(mean_math = mean(math))
+exam %>%
+  summarise(mean_math = mean(math, na.rm = T))
 
 exam %>% summarise(
   mean_math = mean(math, na.rm = T),
