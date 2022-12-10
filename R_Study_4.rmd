@@ -23,7 +23,8 @@ exam %>% filter(english <= 80)
 exam %>% filter(class == 1 & math >= 50)
 exam %>% filter(english >= 90 | math >= 90)
 exam %>% filter(class %in% c(1, 3, 5)) 
-class1 <- exam %>% filter(class == 1) # class == 1인 것들을 class1에 할당
+class1 <- exam %>%
+  filter(class == 1) # class == 1인 것 class1에 할당
 mean(class1$math)
 ```
 
@@ -34,16 +35,24 @@ mean(class1$math)
 
 - select(열 이름) : 열(변수) 추출
 ```{r}
-exam %>% select(class, math) # 여러 변수 추출
-exam %>% select(-math) # '-'기호를 통해 변수를 제외
+exam %>%
+  select(class, math) # 여러 변수 추출
+exam %>%
+  select(-math) # '-'기호를 통해 변수를 제외
 ```
 
 - dplyr 함수 조합
 ```{r}
-exam %>% filter(class == 1) %>% select(english)
-exam %>% filter(class == 2) %>% select(math)
+exam %>%
+  filter(class == 1) %>%
+  select(english)
+exam %>%
+  filter(class == 2) %>%
+  select(math)
 
-exam %>% select(id, math) %>% head
+exam %>%
+  select(id, math) %>%
+  head
 ```
 
 - arrange(열 이름) : 열 정렬
@@ -51,8 +60,12 @@ exam %>% select(id, math) %>% head
 exam %>% arrange(math) # 오름차순 정렬
 exam %>% arrange(desc(math)) # 내림차순 정렬
 
-head(mpg %>% filter(manufacturer == "audi") %>% arrange(desc(hwy)), 5)
-mpg %>% filter(manufacturer == "audi") %>% arrange(desc(hwy)) %>% head(5)
+head(mpg %>%
+       filter(manufacturer == "audi") %>%
+       arrange(desc(hwy)), 5)
+mpg %>%
+  filter(manufacturer == "audi") %>%
+  arrange(desc(hwy)) %>% head(5)
 ```
 
 - mutate(새로운 열 = 조건) : 새로운 열 추가
@@ -110,12 +123,15 @@ mpg %>%
   - 세로로 합칠 변수명이 다를 경우 rename()을 통해 변수를 통일
 
 ```{r}
-test1 <- data.frame(id = c(1, 2, 3, 4, 5),
-                    midterm = c(60, 80, 70, 90, 85))
-test2 <- data.frame(id = c(1, 2, 3, 4, 5),
-                    final = c(70, 83, 65, 95, 80))
-test3 <- data.frame(id = c(6, 7, 8, 9, 10),
-                    midterm = c(60, 80, 70, 90, 85))
+test1 <-
+  data.frame(id = c(1, 2, 3, 4, 5),
+             midterm = c(60, 80, 70, 90, 85))
+test2 <-
+  data.frame(id = c(1, 2, 3, 4, 5),
+             final = c(70, 83, 65, 95, 80))
+test3 <-
+  data.frame(id = c(6, 7, 8, 9, 10),
+             midterm = c(60, 80, 70, 90, 85))
 ```
 
 ```{r}
