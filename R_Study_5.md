@@ -1,13 +1,13 @@
 ### 결측치 처리
 - 결측치 형태는 'NA'로 표기된다.
-```{r}
+```r
 df <- data.frame(sex = c("M", "F", NA, "M", "F"),
                  score = c(5, 4, 3, 4, NA))
 df
 ```
 - is.na(df) : 결측치 확인 함수
   - 결측치가 포함된 상태의 평균과 합계는 NA로 표기된다.
-```{r}
+```r
 table(is.na(df))
 table(is.na(df$score))
 
@@ -22,17 +22,17 @@ df_nomiss
 ```
 
 - na.omit() : 함수를 통한 결측치 제거
-```{r}
+```r
 df_nomiss_2 <- na.omit(df)
 df_nomiss_2
 ```
 - na.rm : 속성을 통한 결측치 제외
-```{r}
+```r
 mean(df$score, na.rm = T)
 sum(df$score, na.rm = T)
 ```
 
-```{r}
+```r
 exam <-
   read.csv("Data/csv_exam.csv")
 exam[c(3, 8, 15), "math"] <-
@@ -51,7 +51,7 @@ exam %>% summarise(
 ```
 
 ### 이상치 제거하기 : 존재할 수 없는 값
-```{r}
+```r
 outlier <- data.frame(sex = c(1, 2, 1, 3, 2, 1),
                       score = c(5, 4, 3, 4, 2, 6))
 outlier
@@ -69,7 +69,7 @@ outlier %>% # 결측치를 제외하고 성별에 따른 평균 구하기
 ```
 
 ### 이상치 제거하기 : 극단적인 값
-```{r}
+```r
 boxplot(mpg$hwy) # 상자 그림 : 정규분포를 직사각형 상자 모양으로 표현한 그래프
 boxplot(mpg$hwy)$stats # 상자 그림 통계치 출력, 통계치 밖에 있는 값이 극단치로 분류
 # [1,]   12

@@ -1,6 +1,6 @@
 #### 직업별 월급 차이
 - 직업 변수 검토
-```{r}
+```r
 class(welfare$code_job)
 # "numeric"
 table(welfare$code_job)
@@ -10,7 +10,7 @@ table(welfare$code_job)
 #   4    3   17   31   12    4   41    5    3    6   48   14    2   29   12
 ```
 - 직업 변수 전처리
-```{r}
+```r
 list_job <-
   read_excel("Data/Koweps_Codebook.xlsx",
              col_names = T,
@@ -29,7 +29,7 @@ head(list_job)
 dim(list_job)
 # [1] 149   2
 ```
-```{r}
+```r
 welfare <- left_join(welfare, list_job, id = "code_job")
 welfare %>% filter(!is.na(code_job)) %>%
   select(code_job, job) %>%
@@ -37,7 +37,7 @@ welfare %>% filter(!is.na(code_job)) %>%
 ```
 
 - 직업별 월급 차이 분석
-```{r}
+```r
 job_income <- welfare %>%
   filter(!is.na(job) & !is.na(income)) %>%
   group_by(job) %>%
@@ -56,7 +56,7 @@ head(job_income)
 ```
 
 - 직업별 월급 상위 10개 직업
-```{r}
+```r
 top10 <- job_income %>% 
   arrange(desc(mean_income)) %>% 
   head(10)
@@ -83,7 +83,7 @@ ggplot(data = top10, aes(x = reorder(job, mean_income), y = mean_income)) +
 ![](Image/7-11.png)
 
 - 직업별 월급 하위 10개 직업
-```{r}
+```r
 bottom10 <- job_income %>% 
   arrange(mean_income) %>% 
   head(10)
@@ -111,7 +111,7 @@ ggplot(data = bottom10, aes(x = reorder(job, -mean_income), y = mean_income)) +
 
 #### 성별 직업 빈도
 - 남성 직업 빈도 상위 10개 추출
-```{r}
+```r
 job_male <- welfare %>%
   filter(!is.na(job) & sex == "male") %>%
   group_by(job) %>%
@@ -161,7 +161,7 @@ job_female
 ```
 
 - 남성 직업 빈도 상위 10개 직업
-```{r}
+```r
 ggplot(data = job_male, aes(x = reorder(job, n), y = n)) +
   geom_col() +
   coord_flip()

@@ -17,7 +17,7 @@ ggplotly(p) # 인터랙티브 그래프
 ![](Image/10-1.png)
 
 - install.packages("dygraphs") : 인터랙티브 시계열 그래프 만드는 패키지
-```{r}
+```r
 library(dygraphs)
 
 economics <- ggplot2::economics
@@ -41,7 +41,7 @@ dygraph(eco) %>% dyRangeSelector()
 ```
 ![](Image/10-2.png)
 
-```{r}
+```r
 # 저축률 
 eco_a <- xts(economics$psavert, order.by = economics$date)
 

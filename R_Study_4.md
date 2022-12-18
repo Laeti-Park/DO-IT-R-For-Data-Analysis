@@ -1,10 +1,5 @@
----
-title: "R_Study_4"
-output: html_notebook
----
-
 ### 데이터 전처리
-```{r}
+```r
 library(dplyr)
 exam <- read.csv("./Data/csv_exam.csv")
 head(exam, 10)
@@ -15,7 +10,7 @@ head(exam, 10)
   - & : and
   - | : or
   - %in% : 포함
-```{r}
+```r
 exam %>% filter(class == 1)
 exam %>% filter(class == 2)
 exam %>% filter(class != 1)
@@ -34,7 +29,7 @@ mean(class1$math)
   - %% : 나머지
 
 - select(열 이름) : 열(변수) 추출
-```{r}
+```r
 exam %>%
   select(class, math) # 여러 변수 추출
 exam %>%
@@ -42,7 +37,7 @@ exam %>%
 ```
 
 - dplyr 함수 조합
-```{r}
+```r
 exam %>%
   filter(class == 1) %>%
   select(english)
@@ -56,7 +51,7 @@ exam %>%
 ```
 
 - arrange(열 이름) : 열 정렬
-```{r}
+```r
 exam %>% arrange(math) # 오름차순 정렬
 exam %>% arrange(desc(math)) # 내림차순 정렬
 
@@ -69,7 +64,7 @@ mpg %>%
 ```
 
 - mutate(새로운 열 = 조건) : 새로운 열 추가
-```{r}
+```r
 exam %>% mutate(total = math + english + science) %>% head
 exam %>% mutate(sum = math + english + science, mean = sum / 3) %>% arrange(sum)
 exam %>% mutate(test = ifelse(science >= 60, "pass", "fail")) %>% head
@@ -87,11 +82,11 @@ exam %>% mutate(test = ifelse(science >= 60, "pass", "fail")) %>% head
   - median() : 중위값
   - IQR() : 4분위값
   - mad() : 중위절대편차
-```{r}
+```r
 exam %>% summarise(mean_math = mean(math))
 ```
 
-```{r}
+```r
 exam %>% group_by(class) %>% summarise(mean_math = mean(math))
 exam %>% group_by(class) %>% summarise(
   mean_math = mean(math),
@@ -101,14 +96,14 @@ exam %>% group_by(class) %>% summarise(
 )
 ```
 
-```{r}
+```r
 mpg %>%
   group_by(manufacturer, drv) %>%
   summarise(mean_cty = mean(cty)) %>%
   head(10)
 ```
 
-```{r}
+```r
 mpg %>%
   group_by(manufacturer) %>%
   filter(class == "suv") %>%
@@ -122,7 +117,7 @@ mpg %>%
 - bind_rows : 세로로 데이터 프레임 합치기
   - 세로로 합칠 변수명이 다를 경우 rename()을 통해 변수를 통일
 
-```{r}
+```r
 test1 <-
   data.frame(id = c(1, 2, 3, 4, 5),
              midterm = c(60, 80, 70, 90, 85))
@@ -134,7 +129,7 @@ test3 <-
              midterm = c(60, 80, 70, 90, 85))
 ```
 
-```{r}
+```r
 total <- left_join(test1, test2, by = "id") # 가로로 합치기
 total
 
@@ -144,7 +139,7 @@ total <- left_join(total, name, by = "id")
 total
 ```
 
-```{r}
+```r
 total2 <- bind_rows(test1, test3) # 세로로 합치기
 total2
 ```

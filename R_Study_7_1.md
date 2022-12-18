@@ -1,22 +1,26 @@
 ### 한국복지패널 데이터 준비
-- [Koweps_hpc10_2015_beta1.sav](https://bit.ly/Koweps_hpc10_2015_v2)
-- install.packages("foreign") : SPSS, SAS, STATA 등 다양한 통계분석 소프트웨어 파일을 불러올 수 있음
-- 사용하는 라이브러리
-```{r}
+
+-   [Koweps_hpc10_2015_beta1.sav](https://bit.ly/Koweps_hpc10_2015_v2)
+-   install.packages("foreign") : SPSS, SAS, STATA 등 다양한 통계분석 소프트웨어 파일을 불러올 수 있음
+-   사용하는 라이브러리
+
+```r
 library(foreign) # SPSS 파일 불러오기
 library(dplyr) # 전처리
 library(ggplot2) # 시각화
 library(readxl) # 엑셀 파일 불러오기
 ```
 
-- 데이터 불러오기
-```{r}
+-   데이터 불러오기
+
+```r
 raw_welfare <- read.spss(file = "./Data/Koweps_hpc10_2015_beta1.sav", to.data.frame = T) # nolint
 welfare <- raw_welfare
 ```
 
-- 데이터 검토하기
-```{r}
+-   데이터 검토하기
+
+```r
 head(welfare)
 tail(welfare)
 View(welfare)
@@ -125,8 +129,9 @@ summary(welfare)
 #  $ h1006_9         : num  88 4 88 88 88 88 88 88 88 88 ...
 ```
 
-- 변수명 바꾸기 : Koweps_Codebook.xlsx을 통해 변수의 특성 확인 가능
-```{r}
+-   변수명 바꾸기 : Koweps_Codebook.xlsx을 통해 변수의 특성 확인 가능
+
+```r
 welfare <- rename(welfare,
   sex = h10_g3,
   birth = h10_g4,
@@ -139,70 +144,91 @@ welfare <- rename(welfare,
 ```
 
 ### 데이터 분석
-- 변수 검토 및 전처리하고 관계를 분석
-#### 성별에 따른 월급 차이
-- 성별 변수 검토 및 전처리
-  - 성별 변수 타입 확인
-    ```{r}
-    class(welfare$sex)
-    # "numeric"
-    ```
-  - 성별 이상치 확인
-    ```{r}
-    table(welfare$sex)
-    #    1    2 
-    # 7578 9086 
-    ```
-  - 이상치 처리 후 확인
-    ```{r}
-    welfare$sex <- ifelse(welfare$sex == 9, NA, welfare$sex)
-    table(is.na(welfare$sex))
-    # FALSE 
-    # 16664 
-    ```
-  - 1인 경우 male, 2인 경우 female로 전처리 후 qplot()로 확인
-    ```{r}
-    welfare$sex <- ifelse(welfare$sex == 1, "male", "female")
-    qplot(welfare$sex)
-    ```
-    ![](Image/7-1.png)
-- 월급 변수 검토 및 전처리
-    - 월급 변수 타입 및 분포 확인
-    ```{r}
+
+-   변수 검토 및 전처리하고 관계를 분석 \#### 성별에 따른 월급 차이
+
+-   성별 변수 검토 및 전처리
+
+    -   성별 변수 타입 확인
+
+        ```r
+        class(welfare$sex)
+        # "numeric"
+        ```
+
+    -   성별 이상치 확인
+
+        ```r
+        table(welfare$sex)
+        #    1    2 
+        # 7578 9086 
+        ```
+
+    -   이상치 처리 후 확인
+
+        ```r
+        welfare$sex <- ifelse(welfare$sex == 9, NA, welfare$sex)
+        table(is.na(welfare$sex))
+        # FALSE 
+        # 16664 
+        ```
+
+    -   1인 경우 male, 2인 경우 female로 전처리 후 qplot()로 확인
+
+        ```r
+        welfare$sex <- ifelse(welfare$sex == 1, "male", "female")
+        qplot(welfare$sex)
+        ```
+
+        ![](Image/7-1.png)
+
+-   월급 변수 검토 및 전처리
+
+    -   월급 변수 타입 및 분포 확인
+
+    ```r
     class(welfare$income)
     summary(welfare$income)
     # Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
     # 0.0   122.0   192.5   241.6   316.6  2400.0   12030 
     qplot(welfare$income) + xlim(0, 1000) # 0 ~ 1000만원 분포 확인
     ```
+
     ![](Image/7-2.png)
-    - 이상치 확인 후 전처리 : 0 또는 9999일 경우 NA로 처리
-    ```{r}
+
+    -   이상치 확인 후 전처리 : 0 또는 9999일 경우 NA로 처리
+
+    ```r
     welfare$income <-
         ifelse(welfare$income %in% c(0, 9999), NA, welfare$income)
     table(is.na(welfare$income))
     # FALSE  TRUE 
     #  4634 12030 
     ```
-- 성별에 따른 월급 차이 분석
-```
-sex_income <- welfare %>%
-  filter(!is.na(income)) %>%
-  group_by(sex) %>%
-  summarise(mean_income = mean(income))
-sex_income
-#   A tibble: 2 × 2
-#   sex    mean_income
-#   <chr>        <dbl>
-# 1 female        162.
-# 2 male          312.
-ggplot(data = sex_income, aes(x = sex, y = mean_income)) + geom_col()
-```
+
+-   성별에 따른 월급 차이 분석
+
+<!-- -->
+
+    sex_income <- welfare %>%
+      filter(!is.na(income)) %>%
+      group_by(sex) %>%
+      summarise(mean_income = mean(income))
+    sex_income
+    #   A tibble: 2 × 2
+    #   sex    mean_income
+    #   <chr>        <dbl>
+    # 1 female        162.
+    # 2 male          312.
+    ggplot(data = sex_income, aes(x = sex, y = mean_income)) + geom_col()
+
 ![](Image/7-3.png)
 
 #### 나이와 월급의 관계
-- 나이 변수 검토
-```{r}
+
+-   나이 변수 검토
+
+```r
 class(welfare$birth)
 # "numeric"
 summary(welfare$birth)
@@ -210,26 +236,31 @@ summary(welfare$birth)
 #    1907    1946    1966    1968    1988    2014 
 qplot(welfare$birth)
 ```
-![](Image/7-4.png)
-- 나이 변수 전처리
-```{r}
+
+![](Image/7-4.png) - 나이 변수 전처리
+
+```r
 welfare$birth <- ifelse(welfare$birth == 9999, NA, welfare$birth)
 table(is.na(welfare$birth))
 # FALSE 
 # 16664 
 ```
-- 나이 파생변수 만들기
-```
-welfare$age <- 2015 - welfare$birth + 1
-summary(welfare$age)
-#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#    2.00   28.00   50.00   48.43   70.00  109.00 
-qplot(welfare$age)
-```
+
+-   나이 파생변수 만들기
+
+<!-- -->
+
+    welfare$age <- 2015 - welfare$birth + 1
+    summary(welfare$age)
+    #    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    #    2.00   28.00   50.00   48.43   70.00  109.00 
+    qplot(welfare$age)
+
 ![](Image/7-5.png)
 
-- 나이와 월급 관계 분석
-```{r}
+-   나이와 월급 관계 분석
+
+```r
 age_income <- welfare %>%
   filter(!is.na(income)) %>%
   group_by(age) %>%
@@ -246,23 +277,30 @@ head(age_income)
 # 6    25        145.
 ggplot(data = age_income, aes(x = age, y = mean_income)) + geom_line()
 ```
+
 ![](Image/7-6.png)
 
 #### 연령대에 따른 월급 차이
-- 연령대 파생변수 만들기
-  - 초년 : 30세 미만 / 중년 : 30 ~ 59세 / 노년 60세 이상
-```{r}
-welfare <- welfare %>%
-  mutate(ageg = ifelse(age < 30, "young",
-                       ifelse(age <= 59, "middle", "old")))
-table(welfare$ageg)
-# middle    old  young 
-#   6049   6281   4334 
-qplot(welfare$ageg)
-```
-![](Image/7-7.png)
-- 연령대에 따른 월급 차이 분석
-```{r}
+
+-   연령대 파생변수 만들기
+
+    -   초년 : 30세 미만 / 중년 : 30 \~ 59세 / 노년 60세 이상
+
+    ```r
+    welfare <- welfare %>%
+      mutate(ageg = ifelse(age < 30, "young",
+                           ifelse(age <= 59, "middle", "old")))
+    table(welfare$ageg)
+    # middle    old  young 
+    #   6049   6281   4334 
+    qplot(welfare$ageg)
+    ```
+
+    ![](Image/7-7.png)
+
+-   연령대에 따른 월급 차이 분석
+
+```r
 ageg_income <- welfare %>%
   filter(!is.na(income)) %>%
   group_by(ageg) %>%
@@ -280,11 +318,14 @@ ggplot(data = ageg_income, aes(x = ageg, y = mean_income)) +
   geom_col() +
   scale_x_discrete(limits = c("young", "middle", "old"))
 ```
+
 ![](Image/7-8.png)
 
 #### 연령대 및 성별 월급 차이
-- 연령대 및 성별 월급 평균표 만들기
-```{r}
+
+-   연령대 및 성별 월급 평균표 만들기
+
+```r
 sex_income <- welfare %>%
   filter(!is.na(income)) %>%
   group_by(ageg, sex) %>%
@@ -303,30 +344,33 @@ sex_income
 # 6 young  male         171. 
 ```
 
-- 그래프 만들기
-```{r}
+-   그래프 만들기
+
+```r
 ggplot(data = sex_income, aes(x = ageg, y = mean_income, fill = sex)) +
   geom_col(position = "dodge") + # 성별 분리해 표시
   scale_x_discrete(limits = c("young", "middle", "old"))
 ```
 
-- 나이 및 성별 월급 차이 분석
-```
-sex_age <- welfare %>% 
-  filter(!is.na(income)) %>% 
-  group_by(age, sex) %>% 
-  summarise(mean_income = mean(income))
-head(sex_age)
-#   A tibble: 6 × 3
-#   Groups:   age [3]
-#     age sex    mean_income
-#   <dbl> <chr>        <dbl>
-# 1    20 female        147.
-# 2    20 male           69 
-# 3    21 female        107.
-# 4    21 male          102.
-# 5    22 female        140.
-# 6    22 male          118.
-ggplot(data = sex_age, aes(x = age, y = mean_income, col = sex)) + geom_line()
-```
+-   나이 및 성별 월급 차이 분석
+
+<!-- -->
+
+    sex_age <- welfare %>% 
+      filter(!is.na(income)) %>% 
+      group_by(age, sex) %>% 
+      summarise(mean_income = mean(income))
+    head(sex_age)
+    #   A tibble: 6 × 3
+    #   Groups:   age [3]
+    #     age sex    mean_income
+    #   <dbl> <chr>        <dbl>
+    # 1    20 female        147.
+    # 2    20 male           69 
+    # 3    21 female        107.
+    # 4    21 male          102.
+    # 5    22 female        140.
+    # 6    22 male          118.
+    ggplot(data = sex_age, aes(x = age, y = mean_income, col = sex)) + geom_line()
+
 ![](Image/7-10.png)

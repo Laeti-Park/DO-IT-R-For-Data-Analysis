@@ -7,13 +7,13 @@
 - KoNLP(Korean Natural Language Porcessing) 패키지를 이용해 한글 텍스트의 형태소 분석
   - KoNLP를 사용하기 위해서는 Java와 rJava 패키지가 설치되어야 함
   - install.packages("multilinguer") : 자바 jdk를 이용하기 위한 패키지
-    ```{r}
+    ```r
     library(multilinguer)
     install_jdk()
     ```
   - install.packages(c("stringr", "hash", "tau", "Sejong", "RSQLite", "devtools"), type = "binary") : KoNLP 패키지를 사용하기 위한 의존성 패키지
   - KoNLP 패키지 설치 : install_github를 이용해 설치
-    ```{r}
+    ```r
     install.packages("remotes")
     remotes::install_github(
     "haven-jeon/KoNLP",
@@ -23,12 +23,12 @@
     library(KoNLP)
     ```
     - KoNLP 패키지가 사용하는 NIA 사전 허용
-    ```{r}
+    ```r
     userNIDic()
     )
     ```
 - 데이터 준비
-```{r}
+```r
 txt <- readLines("./Data/hiphop.txt")
 head(txt)
 # [1] "\"보고 싶다"                  "이렇게 말하니까 더 보고 싶다" "너희 사진을 보고 있어도"     
@@ -42,7 +42,7 @@ txt <- str_replace_all(txt, "\\W", " ")
 ```
 
 - 가장 많이 사용된 단어 알아보기
-```{r}
+```r
 # 가사에서 명사추출
 nouns <- extractNoun(txt)
 
@@ -59,7 +59,7 @@ df_word <- rename(df_word,
 ```
 
 - 자주 사용된 단어 빈도표 만들기
-```{r}
+```r
 # 두 글자 이상 단어 추출
 df_word <- filter(df_word, nchar(word) >= 2)
 
@@ -81,7 +81,7 @@ top_20
 - 단어의 빈도를 구름 모양으로 포현한 그래프
 - install.packages("wordcloud") : 워드 클라우드를 만드는 패키지
 
-```{r}
+```r
 library(wordcloud)
 library(RColorBrewer)
 

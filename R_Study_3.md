@@ -1,15 +1,10 @@
----
-title: "R_Study_3"
-output: html_notebook
----
-
 ### 데이터 프레임 파악 함수
 - head(exam) : 데이터 앞 부분 출력 (default = 6)
 - tail(exam) : 데이터 뒷 부분 출력 (default = 6)
 - View() : Raw 형태로 데이터 프레임 확인
 - dim(exam) : 행, 열 구성 출력
 - str(exam) : 데이터 구조 출력
-```{r}
+```r
 exam <- read.csv("./Data/csv_exam.csv")
 exam
 
@@ -38,7 +33,7 @@ str(exam) # 데이터 구조 출력
 - hwy(highway miles per gallon) : 고속도로 연비
 - fl(fuel type) : 연료 종류
 - class : 자동차 종류
-```{r}
+```r
 library(ggplot2)
 mpg <- as.data.frame(ggplot2::mpg) # 특정 패키지에 포함된 함수나 데이터 지정
 head(mpg)
@@ -52,7 +47,7 @@ summary(mpg)
 - 변수명 변경
 - install.packages("dplyr") : 데이터 추출, 필터링, 계산, 열 추가, 요약, 그룹화를 편리하게 할 수 있는 함수 제공하는 패키지
 - install.packages("ggplot2") : 그래프 함수 제공하는 패키지
-```{r}
+```r
 library(dplyr)
 library(ggplot2)
 df_raw <- data.frame(var1 = c(1, 2, 1),
@@ -63,7 +58,7 @@ df_new <- rename(df_new, v2 = var2) # var2 열을 v2 열로 수정
 df_new
 ```
 - 파생변수 만들기
-```{r}
+```r
 df <- data.frame(var1 = c(4, 3, 8),
                  var2 = c(2, 6, 1))
 df$var_sum <- df$var1 + df$var2 # 파생변수 생성
@@ -73,7 +68,7 @@ df$var_mean <- (df$var1 + df$var2) / 2
 df
 ```
 - 조건문을 통해 파생변수 만들기
-```{r}
+```r
 # 조건문을 활용한 파생변수 만들기
 mpg$total <- (mpg$cty + mpg$hwy) / 2 # 통합 연비 변수 생성
 head(mpg)
@@ -97,10 +92,10 @@ head(mpg, 10)
 
 ### 데이터 빈도 확인
 - 빈도표 확인
-```{r}
+```r
 table(mpg$grade)
 ```
 - 막대 그래프 확인
-```{r}
+```r
 qplot(mpg$grade)
 ```

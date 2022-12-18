@@ -1,17 +1,17 @@
 ### 행 추출
-```{r}
+```r
 exam <- read.csv("csv_exam.csv")
 ```
 
 - 행 번호로 추출
-```{r}
+```r
 exam[]    # 조건 없이 전체 데이터 출력
 exam[1,]  # 1행 추출
 exam[2,]  # 2행 추출
 ```
 
 - 조건에 충족하는 행 추출
-```{r}
+```r
 exam[exam$class == 1,]  # class가 1인 행 추출
 exam[exam$math >= 80,]  # 수학점수가 80점 이상인 행 추출
 
@@ -25,14 +25,14 @@ exam[exam$english < 90 | exam$science < 50,]
 ### 열 추출
 
 - 열 번호로 추출
-```{r}
+```r
 exam[,1]  # 첫 번째 열 추출
 exam[,2]  # 두 번째 열 추출
 exam[,3]  # 세 번째 열 추출
 ```
 
 - 조건에 충족하는 열 추출
-```{r}
+```r
 exam[, "class"]  # class 변수 추출
 exam[, "math"]   # math 변수 추출
 
@@ -42,7 +42,7 @@ exam[,c("class", "math", "english")]  # class, math, english 변수 추출
 ### 헹, 열 추출
 
 - 행, 열 번호로 추출
-```{r}
+```r
 # 행, 변수 모두 인덱스
 exam[1,3]
 
@@ -51,7 +51,7 @@ exam[5, "english"]
 ```
 
 - 조건에 충족하는 행, 열 추출
-```{r}
+```r
 # 행 부등호 조건, 열 변수명
 exam[exam$math >= 50, "english"]
 
@@ -60,7 +60,7 @@ exam[exam$math >= 50, c("english", "science")]
 ```
 
 - dplyr과 내장 함수의 차이 : 가독성의 차이, dplyr 코드가 논리의 흐름대로 구조화 되어있기 때문에 가독성이 높고 이해하기 쉬움
-```{r}
+```r
 # 내장 함수 코드
 exam$tot <- (exam$math + exam$english + exam$science)/3
 aggregate(data=exam[exam$math >= 50 & exam$english >= 80,], tot~class, mean) # 범주형 요약 통계량을 구하는 내장 함수
@@ -75,7 +75,7 @@ exam %>%
 
 ### 변수 타입
 - 연속 변수 : Numeric
-```{r}
+```r
 var1 <- c(1,2,3,1,2)          # numeric 변수 생성
 var1  # numeric 변수 출력
 # [1] 1 2 3 1 2
@@ -91,7 +91,7 @@ mean(var1)
 ```
 
 - 범주 변수 : Factor
-```{r}
+```r
 var2 <- factor(c(1,2,3,1,2))  # factor 변수 생성
 var2  # factor 변수 출력
 # [1] 1 2 3 1 2
@@ -110,7 +110,7 @@ mean(var2)
 ```
 
 - 문자로 구성된 factor 변수
-```{r}
+```r
 var3 <- c("a", "b", "b", "c")          # 문자 변수 생성
 var4 <- factor(c("a", "b", "b", "c"))  # 문자로 된 factor 변수 생성
 
@@ -132,7 +132,7 @@ class(var4)
   - as.character()
   - as.Date()
   - as.data.frame()
-```{r}
+```r
 var2 <- as.numeric(var2)  # numeric 타입으로 변환
 mean(var2)                # 함수 재적용
 class(var2)               # 타입 확인
@@ -151,7 +151,7 @@ levels(var2)              # 범주 확인
 ### 데이터 구조
 - 벡터 : 하나의 값 또는 여러 개의 값으로 구성된 데이터 구조
   -  한 가지 타입으로만 구성할 수 있음
-```{r}
+```r
 # 벡터 만들기
 a <- 1
 a
@@ -171,7 +171,7 @@ class(b)
 
 - 데이터프레임 : 행과 열로 구성된 2차원 데이터 구조
   - 다양한 변수 타입으로 구성 가능
-```{r}
+```r
 # 데이터프레임 만들기
 x1 <- data.frame(var1 = c(1,2,3),
                  var2 = c("a","b","c"))
@@ -187,7 +187,7 @@ class(x1)
 ```
 
 - 매트릭스 : 한 가지 변수 타입으로만 구성할 수 있는 행과 열로 구성된 2차원 데이터 구조
-```{r}
+```r
 # 매트릭스 만들기 - 1~12로 2열
 x2 <- matrix(c(1:12), ncol = 2)
 x2
@@ -205,7 +205,7 @@ class(x2)
 ```
 
 - 어레이 : 2차원 이상으로 구성된 매트릭스
-```{r}
+```r
 # array 만들기 - 1~20으로 2행 x 5열 x 2차원
 x3 <- array(1:20, dim = c(2, 5, 2))
 x3
@@ -227,7 +227,7 @@ class(x3)
 ```
 
 - 리스트 : 모든 데이터 구조를 포함하는 데이터 구조
-```{r}
+```r
 # 리스트 생성 - 앞에서 생성한 데이터 구조 활용
 x4 <- list(f1 = a,   # 벡터
            f2 = x1,  # 데이터 프레임
@@ -271,7 +271,7 @@ class(x4)
 ```
 
 - 리스트 구조를 다루는 문법을 이용하면 원하는 값을 추출할 수 있음
-```{r}
+```r
 mpg <- ggplot2::mpg
 x <- boxplot(mpg$cty)
 x

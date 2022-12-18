@@ -4,7 +4,7 @@ library(ggiraphExtra)
 - 단계 구분도 : 지역별 통계치를 색깔의 차이로 표현한 지도
 
 - 미국 주별 범죄 데이터 준비하기
-```{r}
+```r
 str(USArrests)
 # 'data.frame':	50 obs. of  4 variables:
 #   $ Murder  : num  13.2 10 8.1 8.8 9 7.9 3.3 5.9 15.4 17.4 ...
@@ -36,7 +36,7 @@ str(crime)
 
 - 미국 주 지도 데이터 준비하기
   - install.packages("maps") : 미국 주별 위경도 데이터가 들어있는 패키지
-    ```{r}
+    ```r
     install.packages("maps")
     library(ggplot2)
     states_map <- map_data("state") # 데이터 프레임 형태로 불러오기
@@ -50,7 +50,7 @@ str(crime)
     # $ subregion: chr  NA NA NA NA ...
     ```
 - 단계 구분도 만들기
-```{r}
+```r
 ggChoropleth(data = crime,         # 지도에 표현할 데이터
              aes(fill = Murder,    # 색깔로 표현할 변수
                  map_id = state),  # 지역 기준 변수
@@ -62,7 +62,7 @@ ggChoropleth(data = crime,         # 지도에 표현할 데이터
 - 패키지 준비
   - install.packages("stringi") : 문자 처리 패키지
   - install_github("cardiomoon/kormaps2014") : 지역별 인구통계 데이터가 들어있는 패키지
-```{r}
+```r
 install.packages("devtools")
 devtools::install_github("cardiomoon/kormaps2014")
 

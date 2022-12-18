@@ -1,7 +1,7 @@
 ### 그래프 만들기
 - ggplot2 패키지를 이용해 그래프를 만들 수 있음
 - ggplot() : 플롯 창에 배경 그림 생성
-```{r}
+```r
 library(ggplot2)
 ggplot(data = mpg, aes(x = displ, y = hwy)) # 배경 설정
 ```
@@ -10,7 +10,7 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) # 배경 설정
 #### 산점도
 - 변수 간 관계 표현을 확인할 수 있음
 - geom_point() : 산점도를 표현
-```{r}
+```r
 ggplot(data = mpg, aes(x = displ, y = hwy)) +
   geom_point()
 ```
@@ -18,7 +18,7 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
 
 - xlim() : x축 범위 지정
 - ylim() : y축 범위 지정
-```{r}
+```r
 ggplot(data = mpg, aes(x = displ, y = hwy)) +
   geom_point() +
   xlim(3,6)
@@ -29,7 +29,7 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
 - 집단 간 차이를 표현할 때 주로 사용
 - 평균 막대 그래프
   - geom_col() : 값의 평균으로 막대의 길이를 표현
-  ```{r}
+  ```r
   # 집단별 평균표 만들기
   library(dplyr)
 
@@ -47,13 +47,13 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
   # 3 r        21  
   ```
 
-  ```{r}
+  ```r
   ggplot(data = mpg, aes(x = displ, y = hwy)) +
     geom_col()
   ```
   ![](Image/6-4.png)
 
-  ```{r}
+  ```r
   ggplot(data = df_mpg, aes(x = reorder(drv, -mean_hwy), y = mean_hwy)) +
     geom_col()
   ```
@@ -61,13 +61,13 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
 
 - 빈도 막대 그래프
   - geom_bar() : 값의 빈도로 막대의 길이를 표현
-  ```{r}
+  ```r
   ggplot(data = mpg, aes(x = drv)) +
     geom_bar()
   ```
   ![](Image/6-6.png)
 
-  ```{r}
+  ```r
   ggplot(data = mpg, aes(x = hwy)) +
     geom_bar()
   ```
@@ -78,7 +78,7 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
 - 시계열 데이터 : 일정 시간 간격을 두고 나열된 데이터
 - 시계열 그래프 : 시계열 데이터를 선으로 표현한 그래프
 - geom_line() : 선 그래프를 표현
-```{r}
+```r
 ggplot(data = economics, aes(x = date, y = unemploy)) +
   geom_line()
 ```
@@ -93,7 +93,7 @@ ggplot(data = economics, aes(x = date, y = unemploy)) +
   - 상자 윗면(3사분위수(Q3)) : 하위 75% 위치 값
   - 상자 위 세로선(윗수염) : 하위 75~100% 내에 해당하는 값
   - 상자 밖 점 표식(극단치) Q1, Q3 밖 1.5 IQR을 벗어난 값
-```{r}
+```r
 ggplot(data = mpg, aes(x = drv, y = hwy)) +
   geom_boxplot()
 ```

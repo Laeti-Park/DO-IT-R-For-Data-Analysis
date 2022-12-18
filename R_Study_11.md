@@ -7,7 +7,7 @@
 ### t 검정
 - 두 집단의 평균에 통계적으로 유의한 차이가 있는지 알아볼 때 사용하는 통계 분석 기법
 - compact 자동차와 suv 자동차의 도시 연비 t검정
-```{r}
+```r
 mpg <- as.data.frame(ggplot2::mpg)
 
 library(dplyr)
@@ -35,7 +35,7 @@ t.test(data = mpg_diff, cty ~ class, var.equal = T)
 
 ```
 - 일반 휘발유와 고급 휘발유의 도시 연비 t검정
-```{r}
+```r
 mpg_diff2 <- mpg %>% 
   select(fl, cty) %>% 
   filter(fl %in% c("r", "p"))  # r:regular, p:premium
@@ -62,7 +62,7 @@ t.test(data = mpg_diff2, cty ~ fl, var.equal = T)
 - cor() : 상관행렬 생성 함수
 
 - 실업자 수와 개인 소비 지출의 상관관계
-```{r}
+```r
 economics <- as.data.frame(ggplot2::economics)
 cor.test(economics$unemploy, economics$pce)
 # Pearson's product-moment correlation
@@ -103,19 +103,19 @@ round(car_cor, 2)       # 소수점 셋째 자리에서 반올림해서 출력
 
 - 상관행렬 그래프 생성
 - install.packages("corrplot") : 상관행렬 그래프 생성을 위한 패키지
-```{r}
+```r
 library(corrplot)
 
 corrplot(car_cor)
 ```
 ![](Image/11-1.png)
 
-```{r}
+```r
 corrplot(car_cor, method = "number") # 원 대신 상관계수값으로 생성
 ```
 ![](Image/11-2.png)
 
-```{r}
+```r
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 
 corrplot(car_cor,
